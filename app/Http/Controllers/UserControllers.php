@@ -43,6 +43,7 @@ class UserControllers extends Controller
             'access_token' => Str::uuid(),
         ]);
 
+        app(\App\Http\Controllers\QueueController::class)->fillActiveQueue();
         
         return redirect()->route('queue.status', ['token' => $queue->access_token,]);
     }

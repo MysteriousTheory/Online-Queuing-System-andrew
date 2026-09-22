@@ -41,6 +41,12 @@ class QueueController extends Controller
     {
         $nextInLine = QueueTicket::active()->first();
 
+        if (!$nextInLine) {
+            // Force refill if the active line is empty so we don't get trapped
+            $this->fillActiveQueue($tellerName);
+            $nextInLine = QueueTicket::active()->first();
+        }
+
         if ($nextInLine) {
             $nextInLine->update([
                 'status' => QueueTicket::STATUS_SERVING,
@@ -72,6 +78,15 @@ class QueueController extends Controller
     public function fillActiveQueue(string $tellerName = null)
     {
         $activeCount = QueueTicket::active()->count();
+
+        // If triggered by a background process or user form, find the active teller
+        if (!$tellerName) {
+            $lastAssigned = QueueTicket::whereNotNull('assigned_teller')
+                ->whereIn('status', [QueueTicket::STATUS_SERVING, QueueTicket::STATUS_ACTIVE])
+                ->latest('updated_at')
+                ->first();
+            $tellerName = $lastAssigned ? $lastAssigned->assigned_teller : 'Window 1';
+        }
 
         while ($activeCount < self::MAX_ACTIVE_CAPACITY) {
             $nextHolding = QueueTicket::holding()->first();
