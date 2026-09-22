@@ -29,6 +29,26 @@
                 <div class="bg-green-50 text-green-800 px-6 py-4 rounded-lg font-bold border border-green-200 shadow-sm animate-pulse">
                     ✅ Please proceed to {{ $queue->assigned_teller ?? 'the counter' }}
                 </div>
+            @elseif(in_array($queue->status, ['completed', 'held']))
+                <div class="bg-gray-50 text-gray-800 p-6 rounded-lg border border-gray-200 shadow-sm mb-6 text-left">
+                    @if($queue->status === 'completed')
+                        <h3 class="text-xl font-bold text-center mb-4 text-green-600">🎉 Transaction Complete</h3>
+                    @else
+                        <h3 class="text-xl font-bold text-center mb-4 text-orange-600">⚠️ No Show (Cancelled)</h3>
+                    @endif
+                    
+                    <div class="space-y-2 text-sm">
+                        <p class="flex justify-between"><span class="text-gray-500">Name:</span> <span class="font-medium">{{ $queue->name }}</span></p>
+                        <p class="flex justify-between"><span class="text-gray-500">Teller:</span> <span class="font-medium">{{ $queue->assigned_teller ?? 'Counter' }}</span></p>
+                        <p class="flex justify-between"><span class="text-gray-500">Final Status:</span> <span class="font-bold {{ $queue->status === 'completed' ? 'text-green-600' : 'text-orange-600' }}">{{ $queue->status === 'completed' ? 'Successfully Served' : 'Marked as No Show' }}</span></p>
+                        <p class="flex justify-between"><span class="text-gray-500">Joined at:</span> <span class="font-medium">{{ $queue->created_at->format('h:i A') }}</span></p>
+                        <p class="flex justify-between"><span class="text-gray-500">Finished at:</span> <span class="font-medium">{{ $queue->updated_at->format('h:i A') }}</span></p>
+                        <p class="flex justify-between pt-2 mt-2 border-t border-gray-200"><span class="text-gray-500">Total Duration:</span> <span class="font-bold">{{ $queue->created_at->diffForHumans($queue->updated_at, true) }}</span></p>
+                    </div>
+                </div>
+                <a href="/" class="block w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-4 px-6 rounded-lg shadow-md transition text-lg text-center">
+                    Request New Ticket
+                </a>
             @else
                 <div class="bg-gray-100 text-gray-800 px-6 py-4 rounded-lg font-bold">
                     Status: {{ ucfirst($queue->status) }}
