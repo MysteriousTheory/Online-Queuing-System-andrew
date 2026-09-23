@@ -42,7 +42,6 @@ class QueueController extends Controller
         $nextInLine = QueueTicket::active()->first();
 
         if (!$nextInLine) {
-            // Force refill if the active line is empty so we don't get trapped
             $this->fillActiveQueue($tellerName);
             $nextInLine = QueueTicket::active()->first();
         }
