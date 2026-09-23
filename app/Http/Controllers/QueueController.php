@@ -77,8 +77,6 @@ class QueueController extends Controller
     public function fillActiveQueue(string $tellerName = null)
     {
         $activeCount = QueueTicket::active()->count();
-
-        // If triggered by a background process or user form, find the active teller
         if (!$tellerName) {
             $lastAssigned = QueueTicket::whereNotNull('assigned_teller')
                 ->whereIn('status', [QueueTicket::STATUS_SERVING, QueueTicket::STATUS_ACTIVE])
