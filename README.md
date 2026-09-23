@@ -1,8 +1,13 @@
 <p align="center">
-  <img src="public/custom-logo.png" alt="QueueFlow Logo" width="600">
+  <img src="./public/custom-logo.png" alt="QueueFlow Logo" width="600">
 </p>
 
 # Online Queuing System
+
+![PHP](https://img.shields.io/badge/PHP-8.3-777BB4?style=for-the-badge&logo=php&logoColor=white)
+![Laravel](https://img.shields.io/badge/Laravel-11.x-FF2D20?style=for-the-badge&logo=laravel&logoColor=white)
+![Livewire](https://img.shields.io/badge/Livewire-3.x-FB70A9?style=for-the-badge&logo=laravel&logoColor=white)
+![License](https://img.shields.io/badge/License-MIT-blue.svg?style=for-the-badge)
 
 A modern, efficient Online Queuing System built with Laravel and Livewire to streamline line management and optimize customer flow. This system is designed to provide real-time queue status updates, assign users to tellers, and manage queue progression dynamically.
 
@@ -25,6 +30,14 @@ A modern, efficient Online Queuing System built with Laravel and Livewire to str
 - **Frontend / Interactivity:** Livewire 3.x / Livewire Volt
 - **Testing:** Pest PHP
 - **Database:** SQLite (default) / MySQL / PostgreSQL
+
+##  Prerequisites
+
+Before you begin, ensure you have the following installed on your local machine:
+- **PHP** >= 8.2
+- **Composer**
+- **Node.js & npm**
+- **SQLite** (or MySQL/PostgreSQL if you prefer)
 
 ##  Installation
 
@@ -52,6 +65,7 @@ Follow these steps to set up the project locally:
    cp .env.example .env
    php artisan key:generate
    ```
+   *Note: By default, Laravel 11 is configured to use SQLite. When you run the migrations in the next step, Laravel will prompt you to create the `database.sqlite` file if it doesn't exist.*
 
 5. **Run Database Migrations:**
    ```bash
@@ -63,6 +77,13 @@ Follow these steps to set up the project locally:
    php artisan serve
    ```
    Navigate to `http://localhost:8000` in your browser.
+
+##  Usage
+
+Once the development server is running, you can access the different parts of the application:
+- **Public Entry & Welcome:** [http://localhost:8000/](http://localhost:8000/) - For requesting a queue ticket.
+- **Tracker:** [http://localhost:8000/tracker](http://localhost:8000/tracker) - Where users can track their queue status.
+- **Cashier Dashboard:** [http://localhost:8000/cashier](http://localhost:8000/cashier) - Where cashiers call the next ticket, hold, or complete current tickets.
 
 ##  System Architecture
 
